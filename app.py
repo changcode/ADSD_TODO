@@ -1,8 +1,10 @@
-from bottle import default_app, route, get, post, request, template
+from bottle import default_app, run, route, get, post, request, template
 
 import sqlite3
-
-HOME = "/home/ChangCode/mysite/"
+if __name__ == "__main__":
+    HOME = "./"
+else:
+    HOME = "/home/ChangCode/mysite/"
 
 @route('/todo')
 @route('/todo/<status:int>')
@@ -73,5 +75,7 @@ def do_login():
 	else:
 		return "<p>Login failed.</p>"
 
-application = default_app()
-
+if __name__ == "__main__":
+    run(reloader = True, host="0.0.0.0")
+else:
+    application = default_app()
