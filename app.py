@@ -47,7 +47,8 @@ def new_item():
 
 @route('/')
 def hello_world():
-    return 'Hello there from this very nice Bottle page! :-)'
+	output = template('index')
+	return output
 
 @get('/login') # or @route('/login')
 def login():
