@@ -1,10 +1,14 @@
-from bottle import default_app, run, route, get, post, request, template
+from bottle import default_app, run, route, get, post, request, template, static_file
 
 import sqlite3
 if __name__ == "__main__":
     HOME = "./"
 else:
     HOME = "/home/ChangCode/mysite/"
+
+@route('/<filename:path>')
+def server_static(filename):
+	return static_file(filename, root='static/')
 
 @route('/todo')
 @route('/todo/<status:int>')
