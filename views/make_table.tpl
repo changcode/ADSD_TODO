@@ -48,8 +48,8 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="/">Home</a></li>
-            <li><a href="/todo">ToDo List</a></li>
+            <li><a href="/">Home</a></li>
+            <li class="active"><a href="/todo">ToDo List</a></li>
             <li><a href="#contact">Contact</a></li>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
@@ -75,6 +75,7 @@
             <h1>ToDo List</h1>
             <h2>The open items are as follows:</h2>
         </div>
+        <div><a href="./new" class="btn btn-primary btn-lg active" role="button">New</a></div>
         <div class="col-md">
               <table class="table table-striped">
                 <thead>

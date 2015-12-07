@@ -25,13 +25,7 @@ def todo_list(status=-1):
 
 @get('/new') # or @route('/login')
 def new_item_request():
-	return '''
-		<p>Enter a new item...</p><br/>
-		<form action="/new" method="post">
-			To be done: <input name="task" type="text" />
-			<input value="Save" type="submit" />
-		</form>
-	'''
+	return template('new')
 
 @post('/new')
 def new_item():
