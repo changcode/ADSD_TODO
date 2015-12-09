@@ -6,10 +6,6 @@ if __name__ == "__main__":
 else:
     HOME = "/home/ChangCode/mysite/"
 
-@route('/<filename:path>')
-def server_static(filename):
-	return static_file(filename, root='static/')
-
 @route('/todo')
 @route('/todo/<status:int>')
 def todo_list(status=-1):
@@ -43,10 +39,48 @@ def new_item():
 	#return '<p>The new task was inserted into the database, the ID is %s</p>' % new_id
 	return todo_list(1)
 
+@route('/edit/<no:int>', method='GET')
+def edit_item(no):
+	print ("123")
+	if request.GET.get('save','').strip():
+		edit = request.GET.get('task','').strip()
+		status = request.GET.get('status','').strip()
+
+		if status == 'open':
+			status = 1
+		else:
+			status = 0
+
+		conn = sqlite3.connect('todo.db')
+		c = conn.cursor()
+		c.execute("UPDATE todo SET task = ?, status = ? WHERE id LIKE ?", (edit, status, no))
+		conn.commit()
+
+		return '<p>The item number %s was successfully updated</p>' % no
+	else:
+		conn = sqlite3.connect('todo.db')
+		c = conn.cursor()
+		c.execute("SELECT task FROM todo WHERE id LIKE ?", (str(no)))
+		cur_data = c.fetchone()
+
+		return template('edit_task', old=cur_data, no=no)
+
+@route('/delete/<no:int>', method='GET')
+def delete_item(no):
+	conn = sqlite3.connect('todo.db')
+	c = conn.cursor()
+	c.execute("DELETE FROM todo WHERE id LIKE ?", (str(no)))
+	conn.commit()
+	return '<p>The new task was DELETED from the database, the ID was ' + str(no) + '</p>'
+
 @route('/')
 def hello_world():
 	output = template('index')
 	return output
+
+@route('/<filename:path>')
+def server_static(filename):
+	return static_file(filename, root='static/')
 
 @get('/login') # or @route('/login')
 def login():
