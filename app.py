@@ -1,9 +1,14 @@
 from bottle import default_app, run, route, get, post, request, template, static_file
 
+if __name__ == "__main__":
+    HOME = "./"
+else:
+    HOME = "/home/ChangCode/mysite/"
+
 import sqlite3
 from peewee import *
 
-database = SqliteDatabase('todo.db')
+database = SqliteDatabase(HOME+'todo.db')
 
 class BaseModel(Model):
     class Meta:
@@ -16,11 +21,6 @@ class Todo(BaseModel):
     class Meta:
         db_table = 'todo'
 
-
-if __name__ == "__main__":
-    HOME = "./"
-else:
-    HOME = "/home/ChangCode/mysite/"
 
 @route('/model')
 def model_list():
