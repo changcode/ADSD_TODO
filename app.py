@@ -57,7 +57,7 @@ def edit_item(no):
 
 		return '<p>The item number %s was successfully updated</p>' % no
 	else:
-		conn = sqlite3.connect('todo.db')
+		conn = sqlite3.connect(HOME+'todo.db')
 		c = conn.cursor()
 		c.execute("SELECT task FROM todo WHERE id LIKE ?", (str(no)))
 		cur_data = c.fetchone()
