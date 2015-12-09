@@ -1,10 +1,38 @@
 from bottle import default_app, run, route, get, post, request, template, static_file
 
 import sqlite3
+from peewee import *
+
+database = SqliteDatabase('todo.db')
+
+class BaseModel(Model):
+    class Meta:
+        database = database
+
+class Todo(BaseModel):
+    status = BooleanField()
+    task = CharField()
+
+    class Meta:
+        db_table = 'todo'
+
+
 if __name__ == "__main__":
     HOME = "./"
 else:
     HOME = "/home/ChangCode/mysite/"
+
+@route('/model')
+def model_list():
+	query = Todo.select().where(Todo.status).order_by(Todo.task.asc())
+
+	result = []
+
+	for todo in query:
+		result.append((todo.id,todo.task,todo.status))
+
+	output = template('model_list_view', rows=result)
+	return output
 
 @route('/todo')
 @route('/todo/<status:int>')
