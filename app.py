@@ -41,7 +41,6 @@ def new_item():
 
 @route('/edit/<no:int>', method='GET')
 def edit_item(no):
-	print ("123")
 	if request.GET.get('save','').strip():
 		edit = request.GET.get('task','').strip()
 		status = request.GET.get('status','').strip()
@@ -51,7 +50,7 @@ def edit_item(no):
 		else:
 			status = 0
 
-		conn = sqlite3.connect('todo.db')
+		conn = sqlite3.connect(HOME+'todo.db')
 		c = conn.cursor()
 		c.execute("UPDATE todo SET task = ?, status = ? WHERE id LIKE ?", (edit, status, no))
 		conn.commit()
@@ -67,7 +66,7 @@ def edit_item(no):
 
 @route('/delete/<no:int>', method='GET')
 def delete_item(no):
-	conn = sqlite3.connect('todo.db')
+	conn = sqlite3.connect(HOME+'todo.db')
 	c = conn.cursor()
 	c.execute("DELETE FROM todo WHERE id LIKE ?", (str(no)))
 	conn.commit()
