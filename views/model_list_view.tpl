@@ -67,20 +67,32 @@
           </div>
         </nav>
 
-        <hr/>
-        Model List View
-        <hr/>
-        <p>The open items are as follows:</p>
-        <table border="1">
-        %for row in rows:
-            <tr>
-            <td>#{{row[0]}}</td>
-            <td>{{row[1]}}</td>
-            <td>{{row[2]}}</td>
-            <td><a href="delete/{{row[0]}}"><img src="/trash.png" style="width:16px;height:16px;border:0;"/></a></td>
-            </tr>
-        %end
-        </table>
+        <div class="container">
+            <div class="page-header">
+                <h1>Model List View</h1>
+                <h2>The open items are as follows(Model List):</h2>
+            </div>
+            <p>The open items are as follows:</p>
+            <div class="col-md">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Seq</th>
+                            <th>Description</th>
+                            <th>Marker</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
+                    %for row in rows:
+                        <tr>
+                            <td><a href="/edit/{{row[0]}}">{{row[0]}}</a></td>
+                            <td><a href="/edit/{{row[0]}}">{{row[1]}}</a></td>
+                            <td><a href="/edit/{{row[0]}}">{{row[2]}}</a></td>
+                            <td><a href="delete/{{row[0]}}"><img src="/trash.png" style="width:16px;height:16px;border:0;"/></a></td>
+                        </tr>
+                    %end
+                </table>
+            </div>
         <hr/>
         <p>Enter a new item...</p><br/>
         <form action="/new" method="post">
