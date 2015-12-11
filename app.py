@@ -1,5 +1,6 @@
 from bottle import default_app, run, route, get, post, request, template, static_file
 from items import *
+from mongo_items import *
 
 if __name__ == "__main__":
     HOME = "./"
@@ -23,8 +24,67 @@ class Todo(BaseModel):
     class Meta:
         db_table = 'todo'
 
+#mongoDB
+@get('/mongodb')
+@get('/mongodb/<status:int>')
+def mongo_get_list(status=-1):
+	items = mongo_get_items(status)
+	result = []
+	for item in items:
+		result.append((item['id'],item['task'],item['status']))
+	return template('mongo_list', rows=result)
+
+@get('/mongodb/new')
+def mongo_get_new():
+	return '''
+        <p>Enter a new item...</p><br/>
+        <form action="/mongodb/new" method="post">
+            To be done: <input name="task" type="text" />
+            <input value="Save" type="submit" />
+        </form>
+    '''
+
+@post('/mongodb/new')
+def mongo_post_new():
+	task = request.forms.get('task', '').strip()
+	mongo_new_item(task,1)
+	return mongo_get_list()
+
+@get('/mongodb/edit/<id:re:[a-z0-9]+>')
+def mongo_get_edit(id):
+	item = mongo_get_item(id)
+	print(item['task'])
+	return template('mongo_edit', id=id, task=item['task'], status=item['status'])
+
+@post('/mongodb/edit/<id:re:[a-z0-9]+>')
+def mongo_post_edit(id):
+	task = request.forms.get('task', '').strip()
+	status = request.GET.get('status','').strip()
+	if status == 'open':
+		status = 1
+	else:
+		status = 0
+	item = mongo_get_item(id)
+	item['task'] = task
+	item['status'] = status
+	mongo_save_item(item)
+	return mongo_get_list()
+
+@get('/mongodb/delete/<id:re:[a-z0-9]+>')
+def mongo_confirm_delete_item(id):
+	item = mongo_get_item(id=id)
+	return template('mongo_delete', id=id, task=item['task'], status=item['status'])
+
+@post('/mongodb/delete/<id:re:[a-z0-9]+>')
+def mongo_delete_item(id):
+	mongo_discard_item(id)
+	return mongo_get_list()
+
+
+#tinyDB
+
 @route('/tinydb')
-@route('/tinydb/<statis:int>')
+@route('/tinydb/<status:int>')
 def tinydb(status=-1):
 	items = tiny_get_items(status)
 	result = []
