@@ -1,4 +1,5 @@
 from bottle import default_app, run, route, get, post, request, template, static_file
+from items import *
 
 if __name__ == "__main__":
     HOME = "./"
@@ -7,6 +8,7 @@ else:
 
 import sqlite3
 from peewee import *
+
 
 database = SqliteDatabase(HOME+'todo.db')
 
@@ -21,7 +23,60 @@ class Todo(BaseModel):
     class Meta:
         db_table = 'todo'
 
+@route('/tinydb')
+@route('/tinydb/<statis:int>')
+def tinydb(status=-1):
+	items = tiny_get_items(status)
+	result = []
+	for item in items:
+		result.append((item['id'],item['task'],item['status']))
+	return template('tinydb', rows=result)
 
+@get('/tinydb/new')
+def get_new():
+    return '''
+        <p>Enter a new item...</p><br/>
+        <form action="/tinydb/new" method="post">
+            To be done: <input name="task" type="text" />
+            <input value="Save" type="submit" />
+        </form      '''
+
+@post('/tinydb/new')
+def post_new():
+    task = request.forms.get('task', '').strip()
+    tiny_new_item(task,1)
+    return tinydb()
+
+@get('/tinydb/edit/<id:int>')
+def get_edit(id):
+    item = tiny_get_item(id)
+    return template('tinydb_edit', id=id, task=item['task'], status=item['status'])
+
+@post('/tinydb/edit/<id:int>')
+def post_edit(id):
+	task = request.forms.get('task', '').strip()
+	status = request.GET.get('status','').strip()
+	if status == 'open':
+		status = 1
+	else:
+		status = 0
+	item = tiny_get_item(id)
+	item['task'] = task
+	item['status'] = status
+	tiny_save_item(item)
+	return tinydb()
+
+@get('/tinydb/delete/<id:int>')
+def confirm_delete_item(id):
+	item = tiny_get_item(id)
+	return template('tinydb_delete_view', id=id, task=item['task'], status=item['status'])
+
+@post('/tinydb/delete/<id:int>')
+def delete_item(id):
+	tiny_discard_item(id)
+	return tinydb()
+
+#PeeWee
 @route('/model')
 def model_list():
 	query = Todo.select().where(Todo.status).order_by(Todo.task.asc())
@@ -34,6 +89,7 @@ def model_list():
 	output = template('model_list_view', rows=result)
 	return output
 
+#sqlite3
 @route('/todo')
 @route('/todo/<status:int>')
 def todo_list(status=-1):

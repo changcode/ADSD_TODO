@@ -48,10 +48,10 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-                        <li><a href="/">Home</a></li>
-                <li class="active"><a href="/todo">ToDo List</a></li>
+                <li><a href="/">Home</a></li>
+                <li><a href="/todo">ToDo List</a></li>
                 <li><a href="/model">Model(PeeWee)</a></li>
-                <li><a href="/tinydb">TinyDB</a></li>
+                <li class="active"><a href="/tinydb">TinyDB</a></li>
                 <li><a href="/mongodb">MongoDB</a></li>
                 <li><a href="/mapreduce">MapReduce</a></li>
           </ul>
@@ -59,30 +59,26 @@
       </div>
     </nav>
 
-
-
     <div class="container">
         <div class="page-header">
-            <h1>Edit the task with ID = {{no}}</h1>
+            <h1>Edit the task with ID = {{id}}</h1>
         </div>
-        <form action="/edit/{{no}}" method="get">
-            <input type="text" name="task" value="{{old[0]}}" size="100" maxlength="100">
-			<select name="status">
+        <form action="/tinydb/edit/{{id}}" method="post">
+            <input type="text" name="task" value="{{task}}" size="100" maxlength="100">
+            <select name="status">
                 <option>open</option>
                 <option>closed</option>
             </select>
             <br/>
             <input type="submit" name="save" value="save">
-		</form>
+        </form>
     </div>
 
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"></script>
     <script>window.jQuery || document.write('<script src="./js/assets/js/vendor/jquery.min.js"><\/script>')</script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="./js/assets/js/ie10-viewport-bug-workaround.js"></script>
+    <!-- Placed at the end of the document so the pages load faster -->
   </body>
 </html>

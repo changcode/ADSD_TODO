@@ -32,7 +32,7 @@
     <![endif]-->
   </head>
 
-  <body>
+  <body role="document">
 
     <!-- Fixed navbar -->
     <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -48,10 +48,10 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-                        <li><a href="/">Home</a></li>
-                <li class="active"><a href="/todo">ToDo List</a></li>
+            <li><a href="/">Home</a></li>
+                <li><a href="/todo">ToDo List</a></li>
                 <li><a href="/model">Model(PeeWee)</a></li>
-                <li><a href="/tinydb">TinyDB</a></li>
+                <li class="active"><a href="/tinydb">TinyDB</a></li>
                 <li><a href="/mongodb">MongoDB</a></li>
                 <li><a href="/mapreduce">MapReduce</a></li>
           </ul>
@@ -59,30 +59,49 @@
       </div>
     </nav>
 
-
-
     <div class="container">
-        <div class="page-header">
-            <h1>Edit the task with ID = {{no}}</h1>
-        </div>
-        <form action="/edit/{{no}}" method="get">
-            <input type="text" name="task" value="{{old[0]}}" size="100" maxlength="100">
-			<select name="status">
-                <option>open</option>
-                <option>closed</option>
-            </select>
-            <br/>
-            <input type="submit" name="save" value="save">
-		</form>
-    </div>
+            <div class="page-header">
+                <h1>Model List View</h1>
+                <h2>The open items are as follows(Model List):</h2>
+            </div>
+            <p>The open items are as follows:</p>
+            <div class="col-md">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Seq</th>
+                            <th>Description</th>
+                            <th>Marker</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
+                    %for row in rows:
+                        <tr>
+                            <td><a href="/tinydb/edit/{{row[0]}}">{{row[0]}}</a></td>
+                            <td><a href="/tinydb/edit/{{row[0]}}">{{row[1]}}</a></td>
+                            <td><a href="/tinydb/edit/{{row[0]}}">{{row[2]}}</a></td>
+                            <td><a href="/tinydb/delete/{{row[0]}}"><img src="/trash.png" style="width:16px;height:16px;border:0;"/></a></td>
+                        </tr>
+                    %end
+                </table>
+            </div>
+        <hr/>
+        <p>Enter a new item...</p><br/>
+        <form action="/tinydb/new" method="post">
+            To be done: <input name="task" type="text" />
+            <input value="Save new item..." type="submit" />
+        </form>
+    </div> <!-- /container -->
+
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"></script>
-    <script>window.jQuery || document.write('<script src="./js/assets/js/vendor/jquery.min.js"><\/script>')</script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="../../assets/js/docs.min.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="./js/assets/js/ie10-viewport-bug-workaround.js"></script>
+    <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
   </body>
 </html>
