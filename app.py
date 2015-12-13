@@ -1,6 +1,8 @@
 from bottle import default_app, run, route, get, post, request, template, static_file
 from items import *
 from mongo_items import *
+import json
+from bson import json_util
 
 if __name__ == "__main__":
     HOME = "./"
@@ -23,6 +25,27 @@ class Todo(BaseModel):
 
     class Meta:
         db_table = 'todo'
+
+#API
+@post('/nearbyAPI')
+def nearby_list():
+	lon = request.forms.get('lon', '').strip()
+	lat = request.forms.get('lat', '').strip()
+	dis = request.forms.get('dis', '').strip()
+
+	conn = pymongo.MongoClient('mongodb://todo:todo@ds027415.mongolab.com:27415/todoshuchang')
+	db = conn['todoshuchang']
+	coll = db.location
+
+	near = coll.find({"location":{ "$nearSphere": { "$geometry": { "type": "Point", "coordinates": [ float(lon), float(lat) ] }, "$maxDistance": (float(dis)) * 1609.34 } }})
+	data_list = []
+
+	for n in near:
+		del n['_id']
+		data_list.append(n)
+
+	final = {'result': 'true','data':data_list}
+	return final
 
 #mongoDB
 @get('/mongodb')
