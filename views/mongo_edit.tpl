@@ -53,7 +53,7 @@
                 <li><a href="/model">Model(PeeWee)</a></li>
                 <li><a href="/tinydb">TinyDB</a></li>
                 <li class="active"><a href="/mongodb">MongoDB</a></li>
-                <li><a href="/mapreduce">MapReduce</a></li>
+                <li><a href="/nearbyAPI">nearbyAPI</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>

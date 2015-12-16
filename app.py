@@ -47,6 +47,10 @@ def nearby_list():
 	final = {'result': 'true','data':data_list}
 	return final
 
+@get('/nearbyAPI')
+def nearby_page():
+	return template('nearbyAPI')
+
 #mongoDB
 @get('/mongodb')
 @get('/mongodb/<status:int>')

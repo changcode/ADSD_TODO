@@ -48,10 +48,10 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li><a href="/">Home</a></li>
+                <li class="active"><a href="/">Home</a></li>
                 <li><a href="/todo">ToDo List</a></li>
                 <li><a href="/model">Model(PeeWee)</a></li>
-                <li class="active"><a href="/tinydb">TinyDB</a></li>
+                <li><a href="/tinydb">TinyDB</a></li>
                 <li><a href="/mongodb">MongoDB</a></li>
                 <li><a href="/nearbyAPI">nearbyAPI</a></li>
           </ul>
@@ -59,38 +59,15 @@
       </div>
     </nav>
 
-    <div class="container">
-            <div class="page-header">
-                <h1>Model List View</h1>
-                <h2>The open items are as follows(Model List):</h2>
-            </div>
-            <p>The open items are as follows:</p>
-            <div class="col-md">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>Seq</th>
-                            <th>Description</th>
-                            <th>Marker</th>
-                            <th>Delete</th>
-                        </tr>
-                    </thead>
-                    %for row in rows:
-                        <tr>
-                            <td><a href="/tinydb/edit/{{row[0]}}">{{row[0]}}</a></td>
-                            <td><a href="/tinydb/edit/{{row[0]}}">{{row[1]}}</a></td>
-                            <td><a href="/tinydb/edit/{{row[0]}}">{{row[2]}}</a></td>
-                            <td><a href="/tinydb/delete/{{row[0]}}"><img src="/trash.png" style="width:16px;height:16px;border:0;"/></a></td>
-                        </tr>
-                    %end
-                </table>
-            </div>
-        <hr/>
-        <p>Enter a new item...</p><br/>
-        <form action="/tinydb/new" method="post">
-            To be done: <input name="task" type="text" />
-            <input value="Save new item..." type="submit" />
-        </form>
+    <div class="container theme-showcase" role="main">
+
+      <!-- Main jumbotron for a primary marketing message or call to action -->
+      <div class="jumbotron">
+          <h1>NearbyAPI</h1>
+          <p>This for final project page</p>
+          <p>Avaliable @<a href="http://changcode.pythonanywhere.com/">http://changcode.pythonanywhere.com</a></p>
+      </div>
+
     </div> <!-- /container -->
 
 
